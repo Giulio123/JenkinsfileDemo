@@ -18,6 +18,7 @@ pipeline {
 	   			sh'''
 	   		  		echo "Multiline shell step works too"
 	   		  		ls -la
+	   		  		echo "Un altra linea" 
 	   		  		printenv 
 	   			'''
 	   		}
