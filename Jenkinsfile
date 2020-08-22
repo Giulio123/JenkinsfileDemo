@@ -16,10 +16,10 @@ pipeline {
 	   		steps{
 	   			sh'echo "Hello World!"'
 	   			sh'''
-	   		  		echo "Multiline shell step works too"
-	   		  		ls -la
+	   		  		echo "Multiline shell step works too" 
 	   		  		echo "Un altra linea" 
-	   		  		printenv 
+	   		  		printenv
+	   		  		ls -la 
 	   			'''
 	   		}
 	   	}
