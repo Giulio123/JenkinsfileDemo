@@ -25,10 +25,14 @@ pipeline {
 
         // credential variables will be masked in console log but not in archived file
         sh 'echo $CRED1 > cred1.txt'
-        sh 'echo $CRED2 > cred2.txt'
-        
-      }
-
+        sh 'echo $CRED2 > cred2.txt'   
+      } 
     }
+  }
+  post{
+  	always{
+  		sh'echo "ALWAYS"'
+  		archiveArtifacts artifacts:"**/*.txt", onlyIfSuccessful: true
+  	}
   }
 }
