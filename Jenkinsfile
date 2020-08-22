@@ -18,7 +18,7 @@ pipeline {
 	   			sh'''
 	   		  		echo "Multiline shell step works too"
 	   		  		ls -la
-	   		  		echo "$SOME_VAR"
+	   		  		printenv 
 	   			'''
 	   		}
 	   	}
