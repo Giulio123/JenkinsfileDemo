@@ -17,6 +17,7 @@ pipeline {
     stage("foo") {
       steps {
         // environment variables are not masked
+        echo 'SOME_VAR is $SOME_VAR'
         sh 'echo "SOME_VAR is $SOME_VAR"'
         sh 'echo "INBETWEEN is $INBETWEEN"'
         sh 'echo "OTHER_VAR is $OTHER_VAR"'
@@ -24,8 +25,9 @@ pipeline {
         // credential variables will be masked in console log but not in archived file
         sh 'echo $CRED1 > cred1.txt'
         sh 'echo $CRED2 > cred2.txt'
-        archive "**/*.txt"
+        
       }
+
     }
   }
 }
