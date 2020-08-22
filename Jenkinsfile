@@ -16,9 +16,9 @@ pipeline {
   stages {
     stage("foo") {
       steps {
-      	sh 'echo "PORCO DIO"'
+      	 
         // environment variables are not masked
-        echo 'SOME_VAR is $SOME_VAR'
+        echo  $SOME_VAR 
         sh 'echo "SOME_VAR is $SOME_VAR"'
         sh 'echo "INBETWEEN is $INBETWEEN"'
         sh 'echo "OTHER_VAR is $OTHER_VAR"'
