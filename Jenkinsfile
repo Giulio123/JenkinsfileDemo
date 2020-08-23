@@ -1,31 +1,20 @@
 pipeline {
-    environment {
-      /*
-       * Uses a Jenkins credential called "FOOCredentials" and creates environment variables:
-       * "$FOO" will contain string "USR:PSW"
-       * "$FOO_USR" will contain string for Username
-       * "$FOO_PSW" will contain string for Password
-       */
-      FOO = credentials("FOOcredentials")
+    agent {
+        dockerfile {
+            /*
+            * The Default is "Dockerfile" but this can be changed.
+            * This will build a new container based on the contents of "Dockerfile.alternate"
+            * and run the pipline inside this container
+            */
+            filename "Dockerfile.alternate"
+            args "-v /tmp:/tmp -p 8000:8000"
+        }
     }
-
-    agent any
-
     stages {
         stage("foo") {
             steps {
-                // all credential values are available for use but will be masked in console log
-                sh 'echo "FOO is $FOO"'
-                sh 'echo "FOO_USR is $FOO_USR"'
-                sh 'echo "FOO_PSW is $FOO_PSW"'
-
-                //Write to file
-                dir("combined") {
-                    sh 'echo $FOO > foo.txt'
-                }
-                sh 'echo $FOO_PSW > foo_psw.txt'
-                sh 'echo $FOO_USR > foo_usr.txt'
-                archive "**/*.txt"
+                sh 'cat /hi-there'
+                sh 'echo "The answer is 42"'
             }
         }
     }
