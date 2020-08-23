@@ -22,7 +22,8 @@ pipeline {
 				// credential variables will be masked in console log but not in archived file
 				sh 'echo $CRED1 > cred1.txt'
 				sh 'echo $CRED2 > cred2.txt'
-				archive "**/*.txt"
+				//archive "**/*.txt" IS DEPRECATED 
+				archiveArtifacts artifacts: '**/*.txt',  
 			}
 		}
 	}
