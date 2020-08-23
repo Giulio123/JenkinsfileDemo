@@ -1,20 +1,20 @@
 pipeline {
-    agent any
-
+    agent {
+        dockerfile {
+            /*
+            * The Default is "Dockerfile" but this can be changed.
+            * This will build a new container based on the contents of "Dockerfile.alternate"
+            * and run the pipline inside this container
+            */
+            filename "Dockerfile.alternate"
+            args "-v /tmp:/tmp -p 8000:8000"
+        }
+    }
     stages {
-        stage('Build') {
+        stage("foo") {
             steps {
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                sh 'cat /hi-there'
+                sh 'echo "The answer is 42"'
             }
         }
     }
