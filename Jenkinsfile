@@ -16,7 +16,8 @@ pipeline {
 	   		steps{
 	   			sh'echo "Hello World!"'
 	   			sh''' 
-	   				echo "CRED1 is $CRED1"
+	   				echo "Github user is $CRED1_USR"
+	   				echo "Github psw is $CRED1_PSW"
 	   		  		echo "Un altra linea" 
 	   		  		printenv
 	   		  		ls -la 
