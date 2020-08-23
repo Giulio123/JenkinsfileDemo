@@ -1,30 +1,32 @@
-pipeline { 
-	environment {
-	// environment variables and credential retrieval can be interspersed
-	SOME_VAR = "SOME VALUE"
-	// this assumes that "cred1" has been created on Jenkins Credentials
-	CRED1 = credentials("6fb13357-a6d1-4a5b-aac9-c9cbf3f0d76f")
-	INBETWEEN = "Something in between"
-	// this assumes that "cred2" has been created in Jenkins Credentials
-		CRED2 = credentials("0d34d8e1-b771-4660-b98d-263ca47b5e94")
-	// Env variables can refer to other variables as well
-	OTHER_VAR = "${SOME_VAR}"
-	}
-  	agent any  
-	stages{
-		stage('Build'){
-			steps{
-				// environment variables are not masked
-				sh 'echo "SOME_VAR is $SOME_VAR"'
-				sh 'echo "INBETWEEN is $INBETWEEN"'
-				sh 'echo "OTHER_VAR is $OTHER_VAR"'
+pipeline {
+    environment {
+      /*
+       * Uses a Jenkins credential called "FOOCredentials" and creates environment variables:
+       * "$FOO" will contain string "USR:PSW"
+       * "$FOO_USR" will contain string for Username
+       * "$FOO_PSW" will contain string for Password
+       */
+      FOO = credentials("FOOcredentials")
+    }
 
-				// credential variables will be masked in console log but not in archived file
-				sh 'echo $CRED1 > cred1.txt'
-				sh 'echo $CRED2 > cred2.txt'
-				//archive "**/*.txt" IS DEPRECATED  
-				archiveArtifacts artifacts: '**/*.txt'   
- 			}
-		}
-	}
+    agent any
+
+    stages {
+        stage("foo") {
+            steps {
+                // all credential values are available for use but will be masked in console log
+                sh 'echo "FOO is $FOO"'
+                sh 'echo "FOO_USR is $FOO_USR"'
+                sh 'echo "FOO_PSW is $FOO_PSW"'
+
+                //Write to file
+                dir("combined") {
+                    sh 'echo $FOO > foo.txt'
+                }
+                sh 'echo $FOO_PSW > foo_psw.txt'
+                sh 'echo $FOO_USR > foo_usr.txt'
+                archive "**/*.txt"
+            }
+        }
+    }
 }
