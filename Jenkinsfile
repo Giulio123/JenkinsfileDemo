@@ -4,7 +4,7 @@ pipeline {
     // environment variables and credential retrieval can be interspersed
     SOME_VAR = "SOME VALUE"
     // this assumes that "cred1" has been created on Jenkins Credentials
-//    CRED1 = credentials("cred1")
+	CRED1 = credentials("guaraldino@hotmail.it/****** (Github token)")
     INBETWEEN = "Something in between"
     // this assumes that "cred2" has been created in Jenkins Credentials
 //    CRED2 = credentials("cred2")
