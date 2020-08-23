@@ -1,5 +1,5 @@
 pipeline {
-    agent any  
+    agent{checkout scm}  
     stages {
         stage('Test') {
         	agent { dockerfile true }
