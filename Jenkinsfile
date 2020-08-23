@@ -1,11 +1,20 @@
 pipeline {
-    agent any  
+    agent any
+
     stages {
-        stage('Test') {
-         
+        stage('Build') {
             steps {
-                sh 'node --version'
-                sh 'svn --version'
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }
