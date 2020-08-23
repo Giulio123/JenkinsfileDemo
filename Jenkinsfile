@@ -1,8 +1,8 @@
 pipeline {
-	agent any
+	agent none
     
     stages {
-    	stage("new agent"){
+    	stage('new_agent'){
     		agent {
 				dockerfile {
 				    /*
@@ -13,6 +13,9 @@ pipeline {
 				    filename "Dockerfile"
 				    args "-v /tmp:/tmp -p 8000:8000"
 			    }
+    		}
+    		steps{
+    			sh 'echo porcodio'
     		}
     	}
         stage("foo") {
