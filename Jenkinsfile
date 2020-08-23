@@ -7,7 +7,7 @@ pipeline {
             * and run the pipline inside this container
             */
             filename "Dockerfile"
-            args "-v /tmp:/tmp -p 8000:8000"
+             args "-v $HOME/.m2:/root/.m2 -p 8000:8000"
         }
     }
     stages {
