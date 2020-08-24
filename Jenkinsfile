@@ -1,7 +1,5 @@
 pipeline {   
- environment{
- 	P_STATUS = "NULL"
- }
+ 
   agent none
 
   stages {
@@ -10,7 +8,7 @@ pipeline {
         echo "hello"
         // need to use script block to assign value
         script {
-        	P_STATUS = currentBuild.result		
+        	 echo " currentBuild is $currentBuild.result"	
           currentBuild.result = "UNSTABLE"
         }
       }
@@ -18,8 +16,8 @@ pipeline {
   }
   post {
     always { 
-      echo "I ALWAYS run first and P_STATUS is $P_STATUS and currentBuild is $currentBuild.result"
-    }
+      echo "I ALWAYS run first"     
+  	}
     unstable {
       echo "UNSTABLE runs after ALWAYS"
     }
