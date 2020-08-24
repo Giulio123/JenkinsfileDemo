@@ -12,6 +12,9 @@ pipeline {
     ANOTHER_ENV = "${currentBuild.getNumber()}"
     INHERITED_ENV = "\${BUILD_NUM_ENV} is inherited"
     ACME_FUNC = readMavenPom().getArtifactId()
+    M_VER = readMavenPom().getModelVersion()
+    VER = readMavenPom().getVersion()
+    GROUP = readMavenPom.getGroupId()
   }
 
   agent any
@@ -33,6 +36,9 @@ pipeline {
         // The \ escapes the $ so the variable is not expanded but becomes a literal
 
         sh 'echo "ACME_FUNC is $ACME_FUNC"'
+        sh 'echo "M_VER is $M_VER"'
+        sh 'echo "VER is $VER"'
+        sh 'echo "GROUP is $GROUP"'
         // returns 'ACME_FUNC is spring-petclinic' or the name of the artifact in the pom.xml
       }
     }
