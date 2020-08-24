@@ -1,22 +1,26 @@
  
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage("foo") {
-      steps {
-        writeFile text: 'hello world', file: 'msg.out'
-        /*
-         * Some steps may not be fully implemented with symbols or step names to run directly
-         * This syntax can be used to call the class directly and run that step.
-         * This syntax works fine in Declarative
-         */
-        step([$class: 'ArtifactArchiver', artifacts: 'msg.out', fingerprint: true])
-
-        // Parentheses are optional when a single parameter is used
-        sh('echo $PATH')
-        sh 'echo $PATH'
-      }
+    parameters {
+        // create a job parameter for this pipeline with a default
+        booleanParam(defaultValue: false, description: 'Simulate the promotion', name: 'SIMUL')
     }
-  }
+
+    stages {
+        stage('promote') {
+            when {
+                expression {
+                    // only run when the current build number is odd
+                    currentBuild.getNumber() % 2 == 1
+                }
+            }
+            steps {
+                // call the current job and pass the SIMUL parameter value
+                build job: currentBuild.getProjectName(), parameters: [
+                    booleanParam(name: 'SIMUL', value: params.SIMUL)
+                ]
+            }
+        }
+    }
 }
