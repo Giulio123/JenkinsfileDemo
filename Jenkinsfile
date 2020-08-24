@@ -6,9 +6,13 @@ pipeline {
     stage("Hello") {
       steps {
         echo "hello"
+        environment{
+        	VV = currentBuild.result
+        }
         // need to use script block to assign value
         script {
-        	 echo " currentBuild is $currentBuild.result"	
+        	if(VV!=null)
+        	 echo " VV is $VV"	
           currentBuild.result = "UNSTABLE"
         }
       }
