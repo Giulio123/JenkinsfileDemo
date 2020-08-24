@@ -1,26 +1,51 @@
  
 pipeline {
-    agent any
+  agent any
 
-    parameters {
-        // create a job parameter for this pipeline with a default
-        booleanParam(defaultValue: false, description: 'Simulate the promotion', name: 'SIMUL')
-    }
+  stages {
+    stage("Hello") {
+      steps {
+        echo "hello"
 
-    stages {
-        stage('promote') {
-            when {
-                expression {
-                    // only run when the current build number is odd
-                    currentBuild.getNumber() % 2 == 1
-                }
-            }
-            steps {
-                // call the current job and pass the SIMUL parameter value
-                build job: currentBuild.getProjectName(), parameters: [
-                    booleanParam(name: 'SIMUL', value: params.SIMUL)
-                ]
-            }
+        // Script blocks can run any Groovy script
+        script {
+          String res = env.MAKE_RESULT
+          if (res != null) {
+            echo "Setting build result ${res}"
+            currentBuild.result = res
+          } else {
+            echo "All is well"
+          }
         }
+      }
+      // Post in Stage executes at the end of Stage instead of end of Pipeline
+      post {
+        aborted {
+          echo "Stage 'Hello' WAS ABORTED"
+        }
+        always {
+          echo "Stage 'Hello' finished"
+        }
+        changed {
+          echo "Stage HAVE CHANGED"
+        }
+        failure {
+          echo "Stage FAILED"
+        }
+        success {
+          echo "Stage was Successful"
+        }
+        unstable {
+          echo "Stage is Unstable"
+        }
+      }
     }
+  }
+
+  // All Stages and Pipeline can each have their own post section that is executed at different times
+  post {
+    always {
+      echo "Pipeline is done"
+    }
+  }
 }
