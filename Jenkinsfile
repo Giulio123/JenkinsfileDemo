@@ -1,30 +1,12 @@
-pipeline {   
- 
-  agent none
-
-  stages {
-    stage("Hello") {
-    	environment{
-        	VAV = currentBuild.result
-        }
-      steps {
-        echo "hello"
-        
-        // need to use script block to assign value
-        script {
-        	if(VAV!=null)
-        	 echo " VAV is $VAV"	
-          currentBuild.result = "UNSTABLE"
-        }
-      }
+pipeline {
+    agent {
+        docker { image 'node:14-alpine' }
     }
-  }
-  post {
-    always { 
-      echo "I ALWAYS run first"     
-  	}
-    unstable {
-      echo "UNSTABLE runs after ALWAYS"
+    stages {
+        stage('Test') {
+            steps {
+                sh 'node --version'
+            }
+        }
     }
-  }
 }
