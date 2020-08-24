@@ -5,15 +5,15 @@ pipeline {
   stages {
     stage("Hello") {
     	environment{
-        	VV = currentBuild.result
+        	VAV = currentBuild.result
         }
       steps {
         echo "hello"
         
         // need to use script block to assign value
         script {
-        	if(VV!=null)
-        	 echo " VV is $VV"	
+        	if(VAV!=null)
+        	 echo " VAV is $VAV"	
           currentBuild.result = "UNSTABLE"
         }
       }
