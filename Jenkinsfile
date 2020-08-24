@@ -1,21 +1,25 @@
 pipeline {
-    agent {
-        dockerfile {
-            /*
-            * The Default is "Dockerfile" but this can be changed.
-            * This will build a new container based on the contents of "Dockerfile.alternate"
-            * and run the pipline inside this container
-            */
-            filename "Dockerfile.alternate"
-            args "-v /tmp:/tmp -p 8000:8000"
-        }
+  agent any
+
+  environment {
+    // FOO will be available in entire pipeline
+    FOO = "PIPELINE"
+  }
+
+  stages {
+    stage("local") {
+      environment {
+        // BAR will only be available in this stage
+        BAR = "STAGE"
+      }
+      steps {
+        sh 'echo "FOO is $FOO and BAR is $BAR"'
+      }
     }
-    stages {
-        stage("foo") {
-            steps {
-                sh 'cat /hi-there'
-                sh 'echo "The answer is 42"'
-            }
-        }
+    stage("global") {
+      steps {
+        sh 'echo "FOO is $FOO and BAR is $BAR"'
+      }
     }
+  }
 }
