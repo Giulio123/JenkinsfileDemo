@@ -4,11 +4,12 @@ pipeline {
 
   stages {
     stage("Hello") {
-      steps {
-        echo "hello"
-        environment{
+    	environment{
         	VV = currentBuild.result
         }
+      steps {
+        echo "hello"
+        
         // need to use script block to assign value
         script {
         	if(VV!=null)
