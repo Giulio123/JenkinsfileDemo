@@ -1,2 +1,3 @@
-FROM node:14-alpine
- 
+FROM ubuntu:latest
+
+RUN touch hi-there.txt 
