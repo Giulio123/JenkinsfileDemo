@@ -12,6 +12,7 @@ pipeline {
   stages {
     stage("foo") {
       steps {
+        sh 'ls -l'
         sh 'cat /hi-there'
         sh 'echo "The answer is 42"'
       }
